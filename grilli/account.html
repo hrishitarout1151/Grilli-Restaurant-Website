@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account - Grilli</title>
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/dineflow.css">
+</head>
+<body data-no-cart-btn>
+  <div class="df-page">
+    <div class="df-wrap">
+      <div class="df-top">
+        <a href="index.html"><img src="./assets/images/logo.svg" width="160" height="50" alt="Grilli - Home"></a>
+        <nav><a href="index.html#menu">Menu</a><a href="index.html#reservation">Book a table</a><a href="cart.html">Cart</a><button type="button" id="lo">Logout</button></nav>
+      </div>
+
+      <h1 class="df-title" id="hello">My Account</h1>
+      <p class="df-sub" id="who"></p>
+
+      <div class="df-tabs">
+        <button class="df-tab active" id="t-orders" type="button">Order history</button>
+        <button class="df-tab" id="t-books" type="button">Bookings</button>
+      </div>
+
+      <div class="df-card" id="orders"></div>
+      <div class="df-card" id="books" hidden></div>
+    </div>
+  </div>
+
+  <script src="./assets/js/dineflow.js"></script>
+  <script>
+    (function () {
+      var D = window.DineFlow, E = D.esc, $ = function (id) { return document.getElementById(id); };
+      var user = D.session.user();
+      if (!user || !D.session.token()) { location.replace('login.html?next=account.html'); return; }
+      $('hello').textContent = 'Hello, ' + user.name.split(' ')[0];
+      $('who').textContent = user.email + (user.phone ? '  |  ' + user.phone : '');
+      $('lo').onclick = function () { D.session.clear(); location.href = 'index.html'; };
+
+      var show = function (o) {
+        $('orders').hidden = !o; $('books').hidden = o;
+        $('t-orders').classList.toggle('active', o); $('t-books').classList.toggle('active', !o);
+      };
+      $('t-orders').onclick = function () { show(true); };
+      $('t-books').onclick = function () { show(false); };
+
+      var FLOW = ['pending', 'preparing', 'ready', 'delivered'];
+      function fail(e) {
+        if (e.status === 401) { location.replace('login.html?next=account.html'); return; }
+        $('orders').innerHTML = '<p class="df-sub">' + E(e.message) + '</p>';
+      }
+
+      D.api('/orders/mine').then(function (d) {
+        $('orders').innerHTML = d.orders.length ? d.orders.map(function (o) {
+          var idx = FLOW.indexOf(o.status);
+          var steps = o.status === 'cancelled' ? '' : '<div class="df-steps" title="' + E(o.status) + '">' + FLOW.map(function (s, i) { return '<i class="' + (i <= idx ? 'on' : '') + '"></i>'; }).join('') + '</div>';
+          return '<div class="df-rec"><div class="head"><b>' + E(o.orderNo) + '</b><span><span class="df-pill ' + E(o.status) + '">' + E(o.status) + '</span> <span class="df-pill ' + E(o.paymentStatus) + '">' + E(o.paymentStatus) + '</span></span></div>' +
+            steps +
+            '<p>' + o.items.map(function (i) { return E(i.qty + ' x ' + i.name); }).join(', ') + '</p>' +
+            '<p>' + E(o.orderType) + ' | Total ' + D.money(o.total) + ' | ' + E(D.fmtDateTime(o.createdAt)) + '</p></div>';
+        }).join('') : '<p class="df-sub" style="margin:0">No orders yet. <a href="index.html#menu" style="color:var(--gold-crayola)">Browse the menu</a></p>';
+      }).catch(fail);
+
+      D.api('/reservations/mine').then(function (d) {
+        $('books').innerHTML = d.reservations.length ? d.reservations.map(function (r) {
+          return '<div class="df-rec"><div class="head"><b>' + E(r.bookingNo) + '</b><span class="df-pill ' + E(r.status) + '">' + E(r.status) + '</span></div>' +
+            '<p>' + E(D.fmtDate(r.date)) + ' at ' + E(r.time) + ' | ' + r.guests + ' guest' + (r.guests > 1 ? 's' : '') + '</p>' +
+            (r.message ? '<p>' + E(r.message) + '</p>' : '') + '</div>';
+        }).join('') : '<p class="df-sub" style="margin:0">No bookings yet. <a href="index.html#reservation" style="color:var(--gold-crayola)">Book a table</a><br><span class="df-note">Tables booked while logged in appear here.</span></p>';
+      }).catch(function () {});
+    })();
+  </script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

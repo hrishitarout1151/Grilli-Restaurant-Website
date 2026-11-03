@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Grilli</title>
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/dineflow.css">
+</head>
+<body data-no-cart-btn>
+  <main class="login-box">
+    <div class="df-narrow" style="width:100%">
+      <p style="text-align:center;margin-bottom:28px"><a href="index.html"><img src="./assets/images/logo.svg" width="160" height="50" alt="Grilli - Home" style="margin-inline:auto"></a></p>
+      <div class="df-card">
+        <div class="df-tabs" role="tablist">
+          <button class="df-tab active" id="tab-login" role="tab" type="button">Login</button>
+          <button class="df-tab" id="tab-register" role="tab" type="button">Register</button>
+        </div>
+
+        <form id="form-login" novalidate>
+          <label class="df-field"><span>Email</span><input class="input-field" type="email" name="email" autocomplete="email" required></label>
+          <label class="df-field"><span>Password</span><input class="input-field" type="password" name="password" autocomplete="current-password" required></label>
+          <p class="df-msg" role="status"></p>
+          <button class="df-btn" type="submit">Login</button>
+        </form>
+
+        <form id="form-register" novalidate hidden>
+          <label class="df-field"><span>Full name</span><input class="input-field" type="text" name="name" autocomplete="name" required></label>
+          <label class="df-field"><span>Email</span><input class="input-field" type="email" name="email" autocomplete="email" required></label>
+          <label class="df-field"><span>Phone</span><input class="input-field" type="tel" name="phone" autocomplete="tel"></label>
+          <label class="df-field"><span>Password (6+ characters)</span><input class="input-field" type="password" name="password" autocomplete="new-password" required></label>
+          <p class="df-msg" role="status"></p>
+          <button class="df-btn" type="submit">Create account</button>
+        </form>
+      </div>
+      <p class="df-note" style="text-align:center"><a href="index.html" style="color:var(--gold-crayola)">Back to website</a></p>
+    </div>
+  </main>
+
+  <script src="./assets/js/dineflow.js"></script>
+  <script>
+    (function () {
+      var D = window.DineFlow;
+      var next = new URLSearchParams(location.search).get('next');
+      if (!next || !/^[a-z0-9_-]+\.html$/i.test(next)) next = null;
+
+      var u = D.session.user();
+      if (u && D.session.token()) { location.replace(u.role === 'admin' ? 'admin.html' : (next || 'account.html')); }
+
+      var tl = document.getElementById('tab-login'), tr = document.getElementById('tab-register');
+      var fl = document.getElementById('form-login'), fr = document.getElementById('form-register');
+      function show(login) {
+        tl.classList.toggle('active', login); tr.classList.toggle('active', !login);
+        fl.hidden = !login; fr.hidden = login;
+      }
+      tl.onclick = function () { show(true); };
+      tr.onclick = function () { show(false); };
+
+      function submit(form, path, body) {
+        var msg = form.querySelector('.df-msg'), btn = form.querySelector('button[type=submit]');
+        msg.textContent = ''; msg.className = 'df-msg'; btn.disabled = true;
+        D.api(path, { method: 'POST', body: body }).then(function (d) {
+          D.session.set(d.token, d.user);
+          location.href = d.user.role === 'admin' ? 'admin.html' : (next || 'account.html');
+        }).catch(function (e) {
+          msg.textContent = e.message; msg.className = 'df-msg err'; btn.disabled = false;
+        });
+      }
+      fl.addEventListener('submit', function (e) {
+        e.preventDefault();
+        submit(fl, '/auth/login', { email: fl.elements.email.value, password: fl.elements.password.value });
+      });
+      fr.addEventListener('submit', function (e) {
+        e.preventDefault();
+        submit(fr, '/auth/register', { name: fr.elements.name.value, email: fr.elements.email.value, phone: fr.elements.phone.value, password: fr.elements.password.value });
+      });
+    })();
+  </script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

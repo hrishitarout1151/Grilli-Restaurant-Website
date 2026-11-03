@@ -1,0 +1,1008 @@
+{
+  "users": [
+    {
+      "id": "d479702f-6b22-4997-8a51-3a5989e9d46b",
+      "createdAt": "2026-11-03T09:14:26.805Z",
+      "name": "Hrishita Rout",
+      "email": "hrishitarout9@gmail.com",
+      "phone": "9123363023",
+      "role": "admin",
+      "passwordHash": "$2a$10$K2jW2LA.gEKozNV/8H1XdOu.ootCtZ7DrdS/KFZxPBGtZzhjpEmFC"
+    },
+    {
+      "id": "bef9b608-82c5-4e20-9e34-a419602f4bbd",
+      "createdAt": "2026-10-14T07:45:00.000Z",
+      "name": "Aarav Mehta",
+      "email": "aarav@example.com",
+      "phone": "9876500001",
+      "role": "customer",
+      "passwordHash": "$2a$10$WvA43VEVaRY.hpdBxD6nVO0VcUCBkie0IRIAmfdrix23Dy9N87d0u"
+    },
+    {
+      "id": "93707ba7-313f-4ace-83c3-9b27f835db32",
+      "createdAt": "2026-10-16T07:45:00.000Z",
+      "name": "Priya Nair",
+      "email": "priya@example.com",
+      "phone": "9876500002",
+      "role": "customer",
+      "passwordHash": "$2a$10$71nCsdxgSrggo6ccRGubQOB/bs8MKA/epsmBKZJ1w3Y1waSZs89b."
+    },
+    {
+      "id": "5986ba59-c181-4250-a0af-a2923b2d8ec8",
+      "createdAt": "2026-10-18T07:45:00.000Z",
+      "name": "Rohan Das",
+      "email": "rohan@example.com",
+      "phone": "9876500003",
+      "role": "customer",
+      "passwordHash": "$2a$10$pnjzITrm2SyN0lCaI8pewOF3CnRBEJON/qqI8VVCOv/l4kN0/ylP2"
+    },
+    {
+      "id": "e60c0e48-883a-4db3-b5f0-87519e2d46c0",
+      "createdAt": "2026-10-20T07:45:00.000Z",
+      "name": "Sneha Patel",
+      "email": "sneha@example.com",
+      "phone": "9876500004",
+      "role": "customer",
+      "passwordHash": "$2a$10$yS01lCAU36w2KjY2n//.1.wJtQNJCGUym1ZI4uVwaNCqSzknoTNUW"
+    },
+    {
+      "id": "f01b5f33-38f9-4a95-a192-8abc6b673477",
+      "createdAt": "2026-10-22T07:45:00.000Z",
+      "name": "Karan Singh",
+      "email": "karan@example.com",
+      "phone": "9876500005",
+      "role": "customer",
+      "passwordHash": "$2a$10$vCjAWxJvzbdIF.BWR6xOFOHP4tlLsaEH.j8mqe.Zyz59Vw6aYFfDu"
+    }
+  ],
+  "menu": [
+    {
+      "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+      "createdAt": "2026-11-03T09:14:27.364Z",
+      "name": "Greek Salad",
+      "price": 25.5,
+      "category": "Appetizers",
+      "description": "Tomatoes, green bell pepper, sliced cucumber onion, olives, and feta cheese.",
+      "image": "./assets/images/menu-1.png",
+      "badge": "Seasonal",
+      "available": true
+    },
+    {
+      "id": "f5c14cdc-5ae5-49fe-9b5e-df90d3342ad8",
+      "createdAt": "2026-11-03T09:14:27.365Z",
+      "name": "Lasagne",
+      "price": 40,
+      "category": "Main Course",
+      "description": "Vegetables, cheeses, ground meats, tomato sauce, seasonings and spices",
+      "image": "./assets/images/menu-2.png",
+      "badge": "",
+      "available": true
+    },
+    {
+      "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+      "createdAt": "2026-11-03T09:14:27.384Z",
+      "name": "Butternut Pumpkin",
+      "price": 10,
+      "category": "Breakfast",
+      "description": "Roasted butternut pumpkin with herbs, olive oil and toasted seeds.",
+      "image": "./assets/images/menu-3.png",
+      "badge": "",
+      "available": true
+    },
+    {
+      "id": "9d3e4de9-d15d-4e0f-ad3d-c40faee9655c",
+      "createdAt": "2026-11-03T09:14:27.402Z",
+      "name": "Tokusen Wagyu",
+      "price": 39,
+      "category": "Main Course",
+      "description": "Premium wagyu beef grilled to order with seasonal vegetables and house sauce.",
+      "image": "./assets/images/menu-4.png",
+      "badge": "New",
+      "available": true
+    },
+    {
+      "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+      "createdAt": "2026-11-03T09:14:27.418Z",
+      "name": "Olivas Rellenas",
+      "price": 25,
+      "category": "Appetizers",
+      "description": "Avocados with crab meat, red onion, crab salad stuffed red bell pepper and green bell pepper.",
+      "image": "./assets/images/menu-5.png",
+      "badge": "",
+      "available": true
+    },
+    {
+      "id": "e2a95493-e759-449b-9653-ecf8f3199965",
+      "createdAt": "2026-11-03T09:14:27.435Z",
+      "name": "Opu Fish",
+      "price": 49,
+      "category": "Main Course",
+      "description": "Fresh catch of the day pan seared with lemon butter, capers and vegetables.",
+      "image": "./assets/images/menu-6.png",
+      "badge": "",
+      "available": true
+    }
+  ],
+  "orders": [
+    {
+      "id": "655842fe-ec22-4c3f-bf78-efc163134acf",
+      "createdAt": "2026-10-27T06:45:00.000Z",
+      "orderNo": "DF1000100",
+      "userId": "bef9b608-82c5-4e20-9e34-a419602f4bbd",
+      "customerName": "Aarav Mehta",
+      "items": [
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 1
+        },
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 2
+        }
+      ],
+      "subtotal": 75.5,
+      "tax": 3.78,
+      "total": 79.28,
+      "orderType": "dine-in",
+      "address": "",
+      "tableNo": "1",
+      "phone": "9876500001",
+      "note": "",
+      "paymentMethod": "demo-online",
+      "paymentStatus": "paid",
+      "paymentRef": "DEMO-100000",
+      "status": "delivered"
+    },
+    {
+      "id": "27b15417-1625-4d74-b041-83938ec5714f",
+      "createdAt": "2026-10-28T07:45:00.000Z",
+      "orderNo": "DF1000101",
+      "userId": "93707ba7-313f-4ace-83c3-9b27f835db32",
+      "customerName": "Priya Nair",
+      "items": [
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 2
+        },
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 3
+        }
+      ],
+      "subtotal": 96.5,
+      "tax": 4.83,
+      "total": 101.33,
+      "orderType": "takeaway",
+      "address": "",
+      "tableNo": "",
+      "phone": "9876500002",
+      "note": "",
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "paymentRef": "",
+      "status": "delivered"
+    },
+    {
+      "id": "fba5ecfb-2957-4b66-a9de-f1d2eeb0a7bc",
+      "createdAt": "2026-10-28T08:45:00.000Z",
+      "orderNo": "DF1000102",
+      "userId": "5986ba59-c181-4250-a0af-a2923b2d8ec8",
+      "customerName": "Rohan Das",
+      "items": [
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 3
+        },
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 1
+        }
+      ],
+      "subtotal": 85,
+      "tax": 4.25,
+      "total": 89.25,
+      "orderType": "delivery",
+      "address": "12 Sample Street, Bhubaneswar",
+      "tableNo": "",
+      "phone": "9876500003",
+      "note": "",
+      "paymentMethod": "demo-online",
+      "paymentStatus": "paid",
+      "paymentRef": "DEMO-100074",
+      "status": "delivered"
+    },
+    {
+      "id": "aa0f808a-7678-47cd-990b-ac8dccdfad5e",
+      "createdAt": "2026-10-28T09:45:00.000Z",
+      "orderNo": "DF1000103",
+      "userId": "e60c0e48-883a-4db3-b5f0-87519e2d46c0",
+      "customerName": "Sneha Patel",
+      "items": [
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 1
+        },
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 2
+        }
+      ],
+      "subtotal": 75.5,
+      "tax": 3.78,
+      "total": 79.28,
+      "orderType": "dine-in",
+      "address": "",
+      "tableNo": "4",
+      "phone": "9876500004",
+      "note": "",
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "paymentRef": "",
+      "status": "delivered"
+    },
+    {
+      "id": "9c372aad-fbe2-4c56-a7a7-f0034dfbdb45",
+      "createdAt": "2026-10-29T10:45:00.000Z",
+      "orderNo": "DF1000104",
+      "userId": "f01b5f33-38f9-4a95-a192-8abc6b673477",
+      "customerName": "Karan Singh",
+      "items": [
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 2
+        },
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 3
+        }
+      ],
+      "subtotal": 96.5,
+      "tax": 4.83,
+      "total": 101.33,
+      "orderType": "takeaway",
+      "address": "",
+      "tableNo": "",
+      "phone": "9876500005",
+      "note": "",
+      "paymentMethod": "demo-online",
+      "paymentStatus": "paid",
+      "paymentRef": "DEMO-100148",
+      "status": "delivered"
+    },
+    {
+      "id": "dd5a5d90-1466-4f54-8085-915fe94a8760",
+      "createdAt": "2026-10-29T11:45:00.000Z",
+      "orderNo": "DF1000105",
+      "userId": "bef9b608-82c5-4e20-9e34-a419602f4bbd",
+      "customerName": "Aarav Mehta",
+      "items": [
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 3
+        },
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 1
+        }
+      ],
+      "subtotal": 85,
+      "tax": 4.25,
+      "total": 89.25,
+      "orderType": "delivery",
+      "address": "12 Sample Street, Bhubaneswar",
+      "tableNo": "",
+      "phone": "9876500001",
+      "note": "",
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "paymentRef": "",
+      "status": "delivered"
+    },
+    {
+      "id": "b019647d-858e-43d9-b74b-16c1c3fd2fdf",
+      "createdAt": "2026-10-29T12:45:00.000Z",
+      "orderNo": "DF1000106",
+      "userId": "93707ba7-313f-4ace-83c3-9b27f835db32",
+      "customerName": "Priya Nair",
+      "items": [
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 1
+        },
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 2
+        }
+      ],
+      "subtotal": 75.5,
+      "tax": 3.78,
+      "total": 79.28,
+      "orderType": "dine-in",
+      "address": "",
+      "tableNo": "7",
+      "phone": "9876500002",
+      "note": "",
+      "paymentMethod": "demo-online",
+      "paymentStatus": "paid",
+      "paymentRef": "DEMO-100222",
+      "status": "delivered"
+    },
+    {
+      "id": "a65f66a9-b56b-48a8-b55e-01aa1f06b217",
+      "createdAt": "2026-10-30T13:45:00.000Z",
+      "orderNo": "DF1000107",
+      "userId": "5986ba59-c181-4250-a0af-a2923b2d8ec8",
+      "customerName": "Rohan Das",
+      "items": [
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 2
+        },
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 3
+        }
+      ],
+      "subtotal": 96.5,
+      "tax": 4.83,
+      "total": 101.33,
+      "orderType": "takeaway",
+      "address": "",
+      "tableNo": "",
+      "phone": "9876500003",
+      "note": "",
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "paymentRef": "",
+      "status": "delivered"
+    },
+    {
+      "id": "a8cb4134-8f8c-4179-a905-869b36d05293",
+      "createdAt": "2026-10-30T14:45:00.000Z",
+      "orderNo": "DF1000108",
+      "userId": "e60c0e48-883a-4db3-b5f0-87519e2d46c0",
+      "customerName": "Sneha Patel",
+      "items": [
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 3
+        },
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 1
+        }
+      ],
+      "subtotal": 85,
+      "tax": 4.25,
+      "total": 89.25,
+      "orderType": "delivery",
+      "address": "12 Sample Street, Bhubaneswar",
+      "tableNo": "",
+      "phone": "9876500004",
+      "note": "",
+      "paymentMethod": "demo-online",
+      "paymentStatus": "paid",
+      "paymentRef": "DEMO-100296",
+      "status": "delivered"
+    },
+    {
+      "id": "4472c5b7-a86b-4a5e-a15a-6f818b05898b",
+      "createdAt": "2026-10-30T06:45:00.000Z",
+      "orderNo": "DF1000109",
+      "userId": "f01b5f33-38f9-4a95-a192-8abc6b673477",
+      "customerName": "Karan Singh",
+      "items": [
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 1
+        },
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 2
+        }
+      ],
+      "subtotal": 75.5,
+      "tax": 3.78,
+      "total": 79.28,
+      "orderType": "dine-in",
+      "address": "",
+      "tableNo": "2",
+      "phone": "9876500005",
+      "note": "",
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "paymentRef": "",
+      "status": "delivered"
+    },
+    {
+      "id": "10bae856-4891-4ea2-b1fa-2f71b633e66c",
+      "createdAt": "2026-10-31T07:45:00.000Z",
+      "orderNo": "DF1000110",
+      "userId": "bef9b608-82c5-4e20-9e34-a419602f4bbd",
+      "customerName": "Aarav Mehta",
+      "items": [
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 2
+        },
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 3
+        }
+      ],
+      "subtotal": 96.5,
+      "tax": 4.83,
+      "total": 101.33,
+      "orderType": "takeaway",
+      "address": "",
+      "tableNo": "",
+      "phone": "9876500001",
+      "note": "",
+      "paymentMethod": "demo-online",
+      "paymentStatus": "paid",
+      "paymentRef": "DEMO-100370",
+      "status": "delivered"
+    },
+    {
+      "id": "5bb5d486-7ed7-4ec1-8e2c-0769cb53184a",
+      "createdAt": "2026-10-31T08:45:00.000Z",
+      "orderNo": "DF1000111",
+      "userId": "93707ba7-313f-4ace-83c3-9b27f835db32",
+      "customerName": "Priya Nair",
+      "items": [
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 3
+        },
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 1
+        }
+      ],
+      "subtotal": 85,
+      "tax": 4.25,
+      "total": 89.25,
+      "orderType": "delivery",
+      "address": "12 Sample Street, Bhubaneswar",
+      "tableNo": "",
+      "phone": "9876500002",
+      "note": "",
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "paymentRef": "",
+      "status": "delivered"
+    },
+    {
+      "id": "385f662a-9ba4-468b-a53d-6c9f0d1021ea",
+      "createdAt": "2026-10-31T09:45:00.000Z",
+      "orderNo": "DF1000112",
+      "userId": "5986ba59-c181-4250-a0af-a2923b2d8ec8",
+      "customerName": "Rohan Das",
+      "items": [
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 1
+        },
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 2
+        }
+      ],
+      "subtotal": 75.5,
+      "tax": 3.78,
+      "total": 79.28,
+      "orderType": "dine-in",
+      "address": "",
+      "tableNo": "5",
+      "phone": "9876500003",
+      "note": "",
+      "paymentMethod": "demo-online",
+      "paymentStatus": "paid",
+      "paymentRef": "DEMO-100444",
+      "status": "delivered"
+    },
+    {
+      "id": "a8cbaae4-3326-4681-bfd4-4efd8af431ea",
+      "createdAt": "2026-11-01T10:45:00.000Z",
+      "orderNo": "DF1000113",
+      "userId": "e60c0e48-883a-4db3-b5f0-87519e2d46c0",
+      "customerName": "Sneha Patel",
+      "items": [
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 2
+        },
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 3
+        }
+      ],
+      "subtotal": 96.5,
+      "tax": 4.83,
+      "total": 101.33,
+      "orderType": "takeaway",
+      "address": "",
+      "tableNo": "",
+      "phone": "9876500004",
+      "note": "",
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "paymentRef": "",
+      "status": "delivered"
+    },
+    {
+      "id": "a64fa318-fbf7-4072-8ddf-6f3302f16664",
+      "createdAt": "2026-11-01T11:45:00.000Z",
+      "orderNo": "DF1000114",
+      "userId": "f01b5f33-38f9-4a95-a192-8abc6b673477",
+      "customerName": "Karan Singh",
+      "items": [
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 3
+        },
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 1
+        }
+      ],
+      "subtotal": 85,
+      "tax": 4.25,
+      "total": 89.25,
+      "orderType": "delivery",
+      "address": "12 Sample Street, Bhubaneswar",
+      "tableNo": "",
+      "phone": "9876500005",
+      "note": "",
+      "paymentMethod": "demo-online",
+      "paymentStatus": "paid",
+      "paymentRef": "DEMO-100518",
+      "status": "delivered"
+    },
+    {
+      "id": "b7ce5f18-4369-4209-9f4d-fc49575e48ed",
+      "createdAt": "2026-11-01T12:45:00.000Z",
+      "orderNo": "DF1000115",
+      "userId": "bef9b608-82c5-4e20-9e34-a419602f4bbd",
+      "customerName": "Aarav Mehta",
+      "items": [
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 1
+        },
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 2
+        }
+      ],
+      "subtotal": 75.5,
+      "tax": 3.78,
+      "total": 79.28,
+      "orderType": "dine-in",
+      "address": "",
+      "tableNo": "8",
+      "phone": "9876500001",
+      "note": "",
+      "paymentMethod": "cod",
+      "paymentStatus": "unpaid",
+      "paymentRef": "",
+      "status": "cancelled"
+    },
+    {
+      "id": "8a04c6f8-4510-4d3d-b7a9-995456595eef",
+      "createdAt": "2026-11-02T13:45:00.000Z",
+      "orderNo": "DF1000116",
+      "userId": "93707ba7-313f-4ace-83c3-9b27f835db32",
+      "customerName": "Priya Nair",
+      "items": [
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 2
+        },
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 3
+        }
+      ],
+      "subtotal": 96.5,
+      "tax": 4.83,
+      "total": 101.33,
+      "orderType": "takeaway",
+      "address": "",
+      "tableNo": "",
+      "phone": "9876500002",
+      "note": "",
+      "paymentMethod": "demo-online",
+      "paymentStatus": "paid",
+      "paymentRef": "DEMO-100592",
+      "status": "delivered"
+    },
+    {
+      "id": "4c7f7210-6d35-4813-b625-a75d1593f3c2",
+      "createdAt": "2026-11-02T14:45:00.000Z",
+      "orderNo": "DF1000117",
+      "userId": "5986ba59-c181-4250-a0af-a2923b2d8ec8",
+      "customerName": "Rohan Das",
+      "items": [
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 3
+        },
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 1
+        }
+      ],
+      "subtotal": 85,
+      "tax": 4.25,
+      "total": 89.25,
+      "orderType": "delivery",
+      "address": "12 Sample Street, Bhubaneswar",
+      "tableNo": "",
+      "phone": "9876500003",
+      "note": "",
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "paymentRef": "",
+      "status": "delivered"
+    },
+    {
+      "id": "9565eddf-454c-4586-aefd-951082fe6b19",
+      "createdAt": "2026-11-02T06:45:00.000Z",
+      "orderNo": "DF1000118",
+      "userId": "e60c0e48-883a-4db3-b5f0-87519e2d46c0",
+      "customerName": "Sneha Patel",
+      "items": [
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 1
+        },
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 2
+        }
+      ],
+      "subtotal": 75.5,
+      "tax": 3.78,
+      "total": 79.28,
+      "orderType": "dine-in",
+      "address": "",
+      "tableNo": "3",
+      "phone": "9876500004",
+      "note": "",
+      "paymentMethod": "demo-online",
+      "paymentStatus": "paid",
+      "paymentRef": "DEMO-100666",
+      "status": "delivered"
+    },
+    {
+      "id": "b26a4e15-c117-43f5-8d39-8ee7c345b038",
+      "createdAt": "2026-11-03T07:45:00.000Z",
+      "orderNo": "DF1000119",
+      "userId": "f01b5f33-38f9-4a95-a192-8abc6b673477",
+      "customerName": "Karan Singh",
+      "items": [
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 2
+        },
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 3
+        }
+      ],
+      "subtotal": 96.5,
+      "tax": 4.83,
+      "total": 101.33,
+      "orderType": "takeaway",
+      "address": "",
+      "tableNo": "",
+      "phone": "9876500005",
+      "note": "",
+      "paymentMethod": "cod",
+      "paymentStatus": "unpaid",
+      "paymentRef": "",
+      "status": "ready"
+    },
+    {
+      "id": "79224219-6cce-42b7-887c-b0a6dac9af99",
+      "createdAt": "2026-11-03T08:45:00.000Z",
+      "orderNo": "DF1000120",
+      "userId": "bef9b608-82c5-4e20-9e34-a419602f4bbd",
+      "customerName": "Aarav Mehta",
+      "items": [
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 3
+        },
+        {
+          "id": "4622b01b-4f6d-4a96-accc-9cd9e2171be6",
+          "name": "Butternut Pumpkin",
+          "price": 10,
+          "qty": 1
+        }
+      ],
+      "subtotal": 85,
+      "tax": 4.25,
+      "total": 89.25,
+      "orderType": "delivery",
+      "address": "12 Sample Street, Bhubaneswar",
+      "tableNo": "",
+      "phone": "9876500001",
+      "note": "",
+      "paymentMethod": "demo-online",
+      "paymentStatus": "paid",
+      "paymentRef": "DEMO-100740",
+      "status": "preparing"
+    },
+    {
+      "id": "9fec7838-74fe-401e-810b-3e31b19acbda",
+      "createdAt": "2026-11-03T09:45:00.000Z",
+      "orderNo": "DF1000121",
+      "userId": "93707ba7-313f-4ace-83c3-9b27f835db32",
+      "customerName": "Priya Nair",
+      "items": [
+        {
+          "id": "9a8cce28-7209-4a02-a5a4-8970f52f9c0a",
+          "name": "Greek Salad",
+          "price": 25.5,
+          "qty": 1
+        },
+        {
+          "id": "f004fa8a-8d0b-42e6-bf56-ba4626310c64",
+          "name": "Olivas Rellenas",
+          "price": 25,
+          "qty": 2
+        }
+      ],
+      "subtotal": 75.5,
+      "tax": 3.78,
+      "total": 79.28,
+      "orderType": "dine-in",
+      "address": "",
+      "tableNo": "6",
+      "phone": "9876500002",
+      "note": "",
+      "paymentMethod": "cod",
+      "paymentStatus": "unpaid",
+      "paymentRef": "",
+      "status": "pending"
+    }
+  ],
+  "reservations": [
+    {
+      "id": "e8cfd8a7-e0c9-4986-8185-a92d88250560",
+      "createdAt": "2026-10-27T07:45:00.000Z",
+      "bookingNo": "BK200100",
+      "userId": "bef9b608-82c5-4e20-9e34-a419602f4bbd",
+      "name": "Aarav Mehta",
+      "phone": "9876500001",
+      "guests": 2,
+      "date": "2026-11-02",
+      "time": "07:00pm",
+      "message": "Window table please",
+      "status": "confirmed"
+    },
+    {
+      "id": "c41d3f3c-4fc6-44e1-8ff6-2cca1e253544",
+      "createdAt": "2026-10-28T07:45:00.000Z",
+      "bookingNo": "BK200101",
+      "userId": "93707ba7-313f-4ace-83c3-9b27f835db32",
+      "name": "Priya Nair",
+      "phone": "9876500002",
+      "guests": 3,
+      "date": "2026-11-03",
+      "time": "08:00pm",
+      "message": "",
+      "status": "pending"
+    },
+    {
+      "id": "7f1b6945-6358-405a-b901-60c0b3a59124",
+      "createdAt": "2026-10-29T07:45:00.000Z",
+      "bookingNo": "BK200102",
+      "userId": "5986ba59-c181-4250-a0af-a2923b2d8ec8",
+      "name": "Rohan Das",
+      "phone": "9876500003",
+      "guests": 4,
+      "date": "2026-11-04",
+      "time": "01:00pm",
+      "message": "",
+      "status": "confirmed"
+    },
+    {
+      "id": "be3d9564-be21-4dbf-a53a-a0cfa6adb288",
+      "createdAt": "2026-10-30T07:45:00.000Z",
+      "bookingNo": "BK200103",
+      "userId": "e60c0e48-883a-4db3-b5f0-87519e2d46c0",
+      "name": "Sneha Patel",
+      "phone": "9876500004",
+      "guests": 5,
+      "date": "2026-11-05",
+      "time": "09:00pm",
+      "message": "Window table please",
+      "status": "pending"
+    },
+    {
+      "id": "cf61b5ae-030e-4e4b-bb83-03211aff0f84",
+      "createdAt": "2026-10-31T07:45:00.000Z",
+      "bookingNo": "BK200104",
+      "userId": "f01b5f33-38f9-4a95-a192-8abc6b673477",
+      "name": "Karan Singh",
+      "phone": "9876500005",
+      "guests": 6,
+      "date": "2026-11-06",
+      "time": "07:00pm",
+      "message": "",
+      "status": "completed"
+    },
+    {
+      "id": "856b2646-5fc2-4b03-a49d-b7d4e2fb54ef",
+      "createdAt": "2026-11-01T07:45:00.000Z",
+      "bookingNo": "BK200105",
+      "userId": "bef9b608-82c5-4e20-9e34-a419602f4bbd",
+      "name": "Aarav Mehta",
+      "phone": "9876500001",
+      "guests": 2,
+      "date": "2026-11-07",
+      "time": "08:00pm",
+      "message": "",
+      "status": "cancelled"
+    },
+    {
+      "id": "c09179fa-f605-416c-90a9-1b56d31645dc",
+      "createdAt": "2026-11-02T07:45:00.000Z",
+      "bookingNo": "BK200106",
+      "userId": "93707ba7-313f-4ace-83c3-9b27f835db32",
+      "name": "Priya Nair",
+      "phone": "9876500002",
+      "guests": 3,
+      "date": "2026-11-09",
+      "time": "01:00pm",
+      "message": "Window table please",
+      "status": "confirmed"
+    },
+    {
+      "id": "b9552cb0-afdb-4e12-b79a-9c8df9f45a9e",
+      "createdAt": "2026-11-03T07:45:00.000Z",
+      "bookingNo": "BK200107",
+      "userId": "5986ba59-c181-4250-a0af-a2923b2d8ec8",
+      "name": "Rohan Das",
+      "phone": "9876500003",
+      "guests": 4,
+      "date": "2026-11-10",
+      "time": "09:00pm",
+      "message": "",
+      "status": "pending"
+    }
+  ],
+  "contacts": [
+    {
+      "id": "ddea0dea-62be-482b-b872-c4fe915682c2",
+      "createdAt": "2026-11-03T09:14:27.944Z",
+      "type": "enquiry",
+      "name": "Meera Joshi",
+      "email": "meera@example.com",
+      "message": "Do you take bookings for a birthday party of 15 people next Saturday?",
+      "read": false
+    },
+    {
+      "id": "67a860b2-abc6-46d7-8100-efa882efa7d1",
+      "createdAt": "2026-11-03T09:14:27.946Z",
+      "type": "enquiry",
+      "name": "Vikram Rao",
+      "email": "vikram@example.com",
+      "message": "Is there a vegetarian tasting menu available on weekdays?",
+      "read": true
+    },
+    {
+      "id": "7f1803c5-cae9-4e6e-aa7f-ca0a71798998",
+      "createdAt": "2026-11-03T09:14:27.947Z",
+      "type": "subscriber",
+      "name": "",
+      "email": "newsletter.fan@example.com",
+      "message": "",
+      "read": true
+    },
+    {
+      "id": "94f3d9e7-3051-40a6-9e39-d7b5ed6264ff",
+      "createdAt": "2026-11-03T09:17:50.407Z",
+      "type": "enquiry",
+      "name": "Hrishita",
+      "email": "hrishitarout5@gmail.com",
+      "message": "It was good. Would love to visit again.",
+      "read": false
+    },
+    {
+      "id": "4d769e66-fd51-4e4b-9433-1124d870f8de",
+      "createdAt": "2026-11-03T12:27:52.892Z",
+      "type": "enquiry",
+      "name": "Hrishita",
+      "email": "hrishitarout11@gmail.com",
+      "message": "It was okay.",
+      "read": false,
+      "emailed": false
+    }
+  ]
+}

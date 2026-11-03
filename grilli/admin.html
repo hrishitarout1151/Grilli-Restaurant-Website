@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Grilli</title>
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/dineflow.css">
+</head>
+<body data-no-cart-btn>
+  <div class="adm" id="app" hidden>
+    <aside class="adm-side">
+      <div class="brand">Grilli<small>Admin console</small></div>
+      <nav class="adm-nav" id="nav">
+        <button type="button" data-s="dashboard" class="active">Dashboard</button>
+        <button type="button" data-s="orders">Orders <span class="dot" id="d-orders" hidden></span></button>
+        <button type="button" data-s="reservations">Reservations <span class="dot" id="d-res" hidden></span></button>
+        <button type="button" data-s="menu">Menu</button>
+        <button type="button" data-s="payments">Payments</button>
+        <button type="button" data-s="messages">Messages <span class="dot" id="d-msg" hidden></span></button>
+        <button type="button" data-s="customers">Customers</button>
+      </nav>
+      <a class="out" href="index.html" style="margin-top:auto">View website</a>
+      <button class="out" type="button" id="logout" style="margin-top:0">Logout</button>
+    </aside>
+    <main class="adm-main" id="main"></main>
+  </div>
+
+  <div class="modal-bg" id="menu-modal">
+    <form class="modal" id="menu-form" novalidate>
+      <h2 id="mm-title">Add dish</h2>
+      <input type="hidden" name="id">
+      <label class="df-field"><span>Name</span><input class="input-field" name="name" required maxlength="80"></label>
+      <div class="df-row two">
+        <label class="df-field"><span>Price</span><input class="input-field" name="price" type="number" min="0" step="0.01" required></label>
+        <label class="df-field"><span>Category</span>
+          <input class="input-field" name="category" list="cats" required maxlength="40">
+          <datalist id="cats"><option>Breakfast</option><option>Appetizers</option><option>Drinks</option><option>Main Course</option><option>Desserts</option></datalist>
+        </label>
+      </div>
+      <label class="df-field"><span>Description</span><textarea class="input-field" name="description" maxlength="300"></textarea></label>
+      <div class="df-row two">
+        <label class="df-field"><span>Image path</span>
+          <input class="input-field" name="image" list="imgs" placeholder="./assets/images/menu-1.png">
+          <datalist id="imgs"><option>./assets/images/menu-1.png</option><option>./assets/images/menu-2.png</option><option>./assets/images/menu-3.png</option><option>./assets/images/menu-4.png</option><option>./assets/images/menu-5.png</option><option>./assets/images/menu-6.png</option></datalist>
+        </label>
+        <label class="df-field"><span>Badge (optional)</span><input class="input-field" name="badge" maxlength="14" placeholder="New"></label>
+      </div>
+      <label class="df-field" style="display:flex;gap:10px;align-items:center"><input type="checkbox" name="available" checked> <span style="margin:0">Available to order</span></label>
+      <p class="df-msg" id="mm-msg"></p>
+      <div class="actions"><button type="button" class="df-btn ghost small" id="mm-cancel">Cancel</button><button type="submit" class="df-btn small">Save</button></div>
+    </form>
+  </div>
+
+  <script src="./assets/js/dineflow.js"></script>
+  <script>
+    (function () {
+      var D = window.DineFlow, E = D.esc, M = D.money, $ = function (id) { return document.getElementById(id); };
+      var u = D.session.user();
+      if (!u || !D.session.token()) { location.replace('login.html?next=admin.html'); return; }
+      if (u.role !== 'admin') {
+        document.body.innerHTML = '<div class="login-box"><div class="df-card df-narrow" style="text-align:center"><h2>Admin only</h2><p class="df-sub">This account is a customer account.</p><a class="df-btn" href="index.html">Back to website</a></div></div>';
+        return;
+      }
+      $('app').hidden = false;
+      $('logout').onclick = function () { D.session.clear(); location.href = 'login.html'; };
+
+      var main = $('main'), current = 'dashboard';
+      var ORDER_ST = ['pending', 'preparing', 'ready', 'delivered', 'cancelled'];
+      var RES_ST = ['pending', 'confirmed', 'completed', 'cancelled'];
+      var filter = { orders: 'all', reservations: 'all' };
+      var menuCache = [];
+
+      function opts(list, sel) { return list.map(function (s) { return '<option value="' + s + '"' + (s === sel ? ' selected' : '') + '>' + s + '</option>'; }).join(''); }
+      function pill(s) { return '<span class="df-pill ' + E(s) + '">' + E(s) + '</span>'; }
+      function head(t, extra) { return '<div class="adm-h"><h1>' + t + '</h1>' + (extra || '') + '</div>'; }
+      function chips(key, list) {
+        return '<div class="filters">' + ['all'].concat(list).map(function (s) {
+          return '<button type="button" class="df-chip' + (filter[key] === s ? ' active' : '') + '" data-f="' + key + ':' + s + '">' + s + '</button>';
+        }).join('') + '</div>';
+      }
+      function fail(e) {
+        if (e.status === 401 || e.status === 403) { D.session.clear(); location.replace('login.html?next=admin.html'); return; }
+        main.innerHTML = '<div class="panel"><h3>Error</h3><p class="df-sub" style="margin:0">' + E(e.message) + '</p></div>';
+      }
+      function empty(t) { return '<tr><td colspan="9" style="text-align:center;color:var(--quick-silver);padding:30px">' + t + '</td></tr>'; }
+
+      /* ---- sections ---- */
+      var S = {};
+
+      S.dashboard = function () {
+        return D.api('/admin/stats').then(function (s) {
+          var max = Math.max.apply(null, s.revenueByDay.map(function (d) { return d.revenue; }).concat([1]));
+          var topMax = Math.max.apply(null, s.topItems.map(function (t) { return t.qty; }).concat([1]));
+          var st = Object.keys(s.byStatus);
+          var stMax = Math.max.apply(null, st.map(function (k) { return s.byStatus[k]; }).concat([1]));
+          main.innerHTML = head('Dashboard') +
+            '<div class="kpis">' +
+            '<div class="kpi"><small>Total orders</small><b>' + s.totalOrders + '</b><em>' + s.pendingOrders + ' pending</em></div>' +
+            '<div class="kpi"><small>Revenue</small><b>' + M(s.revenue) + '</b><em>' + M(s.paidRevenue) + ' paid online / settled</em></div>' +
+            '<div class="kpi"><small>Avg order</small><b>' + M(s.avgOrder) + '</b><em>excluding cancelled</em></div>' +
+            '<div class="kpi"><small>Reservations</small><b>' + s.totalReservations + '</b><em>' + s.pendingReservations + ' pending, ' + s.todayReservations + ' today</em></div>' +
+            '<div class="kpi"><small>Customers</small><b>' + s.customers + '</b><em>' + s.menuItems + ' dishes on menu</em></div>' +
+            '<div class="kpi"><small>New messages</small><b>' + s.unreadMessages + '</b><em>unread enquiries</em></div></div>' +
+            '<div class="panels"><div class="panel"><h3>Revenue, last 7 days</h3><div class="bars">' +
+            s.revenueByDay.map(function (d) {
+              return '<div class="col"><span>' + (d.revenue ? '$' + Math.round(d.revenue) : '') + '</span><div class="bar" style="height:' + Math.max(2, d.revenue / max * 78) + '%"></div><small>' + E(d.date.slice(5)) + '</small></div>';
+            }).join('') + '</div></div>' +
+            '<div class="panel"><h3>Top selling dishes</h3>' + (s.topItems.length ? s.topItems.map(function (t) {
+              return '<div class="hbar"><div><span>' + E(t.name) + '</span><span>' + t.qty + '</span></div><i><b style="width:' + t.qty / topMax * 100 + '%"></b></i></div>';
+            }).join('') : '<p class="df-note">No sales yet.</p>') + '</div></div>' +
+            '<div class="panel"><h3>Orders by status</h3>' + st.map(function (k) {
+              return '<div class="hbar"><div><span>' + E(k) + '</span><span>' + s.byStatus[k] + '</span></div><i><b style="width:' + s.byStatus[k] / stMax * 100 + '%"></b></i></div>';
+            }).join('') + '</div>';
+          $('d-orders').hidden = !s.pendingOrders; $('d-orders').textContent = s.pendingOrders;
+          $('d-res').hidden = !s.pendingReservations; $('d-res').textContent = s.pendingReservations;
+          $('d-msg').hidden = !s.unreadMessages; $('d-msg').textContent = s.unreadMessages;
+        });
+      };
+
+      S.orders = function () {
+        return D.api('/orders').then(function (d) {
+          var rows = d.orders.filter(function (o) { return filter.orders === 'all' || o.status === filter.orders; });
+          main.innerHTML = head('Orders') + chips('orders', ORDER_ST) +
+            '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Type</th><th>Total</th><th>Payment</th><th>Status</th><th></th></tr></thead><tbody>' +
+            (rows.length ? rows.map(function (o) {
+              return '<tr><td><b>' + E(o.orderNo) + '</b><small>' + E(D.fmtDateTime(o.createdAt)) + '</small></td>' +
+                '<td>' + E(o.customerName) + '<small>' + E(o.phone) + '</small></td>' +
+                '<td>' + o.items.map(function (i) { return E(i.qty + ' x ' + i.name); }).join('<br>') + (o.note ? '<small>Note: ' + E(o.note) + '</small>' : '') + '</td>' +
+                '<td>' + E(o.orderType) + (o.tableNo ? '<small>Table ' + E(o.tableNo) + '</small>' : '') + (o.address ? '<small>' + E(o.address) + '</small>' : '') + '</td>' +
+                '<td>' + M(o.total) + '</td><td>' + pill(o.paymentStatus) + '<small>' + E(o.paymentMethod) + '</small></td>' +
+                '<td><select data-ost="' + E(o.id) + '">' + opts(ORDER_ST, o.status) + '</select></td>' +
+                '<td><button class="df-btn ghost small" type="button" data-del="orders:' + E(o.id) + '">Delete</button></td></tr>';
+            }).join('') : empty('No orders')) + '</tbody></table></div>';
+        });
+      };
+
+      S.reservations = function () {
+        return D.api('/reservations').then(function (d) {
+          var rows = d.reservations.filter(function (r) { return filter.reservations === 'all' || r.status === filter.reservations; });
+          main.innerHTML = head('Reservations') + chips('reservations', RES_ST) +
+            '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Booking</th><th>Guest</th><th>Date / time</th><th>Party</th><th>Message</th><th>Status</th><th></th></tr></thead><tbody>' +
+            (rows.length ? rows.map(function (r) {
+              return '<tr><td><b>' + E(r.bookingNo) + '</b><small>' + E(D.fmtDateTime(r.createdAt)) + '</small></td>' +
+                '<td>' + E(r.name) + '<small>' + E(r.phone) + '</small></td>' +
+                '<td>' + E(D.fmtDate(r.date)) + '<small>' + E(r.time) + '</small></td><td>' + r.guests + '</td>' +
+                '<td>' + E(r.message || '-') + '</td>' +
+                '<td><select data-rst="' + E(r.id) + '">' + opts(RES_ST, r.status) + '</select></td>' +
+                '<td><button class="df-btn ghost small" type="button" data-del="reservations:' + E(r.id) + '">Delete</button></td></tr>';
+            }).join('') : empty('No reservations')) + '</tbody></table></div>';
+        });
+      };
+
+      S.menu = function () {
+        return D.api('/menu?all=1').then(function (d) {
+          menuCache = d.items;
+          main.innerHTML = head('Menu', '<button class="df-btn small" type="button" data-addmenu>Add dish</button>') +
+            '<div class="tbl-wrap"><table class="tbl"><thead><tr><th></th><th>Dish</th><th>Category</th><th>Price</th><th>Status</th><th></th></tr></thead><tbody>' +
+            (d.items.length ? d.items.map(function (i) {
+              return '<tr><td><img class="thumb" src="' + E(i.image || './assets/images/menu-1.png') + '" alt=""></td>' +
+                '<td><b>' + E(i.name) + '</b>' + (i.badge ? ' ' + pill(i.badge) : '') + '<small>' + E(i.description) + '</small></td>' +
+                '<td>' + E(i.category) + '</td><td>' + M(i.price) + '</td>' +
+                '<td><button type="button" class="df-pill ' + (i.available === false ? 'cancelled' : 'delivered') + '" data-toggle="' + E(i.id) + '">' + (i.available === false ? 'hidden' : 'available') + '</button></td>' +
+                '<td><div class="acts"><button class="df-btn small" type="button" data-edit="' + E(i.id) + '">Edit</button><button class="df-btn ghost small" type="button" data-del="menu:' + E(i.id) + '">Delete</button></div></td></tr>';
+            }).join('') : empty('No dishes yet')) + '</tbody></table></div>';
+        });
+      };
+
+      S.payments = function () {
+        return D.api('/orders').then(function (d) {
+          var paid = d.orders.filter(function (o) { return o.paymentStatus === 'paid'; });
+          var unpaid = d.orders.filter(function (o) { return o.paymentStatus === 'unpaid' && o.status !== 'cancelled'; });
+          var sum = function (a) { return a.reduce(function (s, o) { return s + o.total; }, 0); };
+          main.innerHTML = head('Payments') +
+            '<div class="kpis"><div class="kpi"><small>Collected</small><b>' + M(sum(paid)) + '</b><em>' + paid.length + ' payments</em></div>' +
+            '<div class="kpi"><small>Outstanding</small><b>' + M(sum(unpaid)) + '</b><em>' + unpaid.length + ' unpaid orders</em></div></div>' +
+            '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Order</th><th>Customer</th><th>Method</th><th>Reference</th><th>Amount</th><th>Payment status</th></tr></thead><tbody>' +
+            (d.orders.length ? d.orders.map(function (o) {
+              return '<tr><td><b>' + E(o.orderNo) + '</b><small>' + E(D.fmtDateTime(o.createdAt)) + '</small></td><td>' + E(o.customerName) + '</td>' +
+                '<td>' + (o.paymentMethod === 'cod' ? 'Cash / at venue' : 'Online (demo)') + '</td><td>' + E(o.paymentRef || '-') + '</td><td>' + M(o.total) + '</td>' +
+                '<td><select data-pst="' + E(o.id) + '">' + opts(['paid', 'unpaid', 'refunded'], o.paymentStatus) + '</select></td></tr>';
+            }).join('') : empty('No payments')) + '</tbody></table></div>';
+        });
+      };
+
+      S.messages = function () {
+        return D.api('/contact').then(function (d) {
+          var enq = d.contacts.filter(function (c) { return c.type === 'enquiry'; });
+          var subs = d.contacts.filter(function (c) { return c.type === 'subscriber'; });
+          main.innerHTML = head('Messages') +
+            '<div class="tbl-wrap" style="margin-bottom:24px">' + (enq.length ? enq.map(function (c) {
+              return '<div class="msgcard' + (c.read ? '' : ' unread') + '"><div class="head"><b>' + E(c.name) + ' <small>' + E(c.email) + '</small></b><small>' + E(D.fmtDateTime(c.createdAt)) + '</small></div>' +
+                '<p>' + E(c.message) + '</p><div class="acts" style="display:flex;gap:8px"><button class="df-btn ghost small" type="button" data-read="' + E(c.id) + ':' + (c.read ? 0 : 1) + '">' + (c.read ? 'Mark unread' : 'Mark read') + '</button>' +
+                '<a class="df-btn ghost small" href="mailto:' + E(c.email) + '">Reply</a><button class="df-btn ghost small" type="button" data-del="contact:' + E(c.id) + '">Delete</button></div></div>';
+            }).join('') : '<p class="df-note" style="padding:20px;margin:0">No enquiries yet.</p>') + '</div>' +
+            '<div class="panel"><h3>Newsletter subscribers (' + subs.length + ')</h3><p class="df-note" style="margin:0">' + (subs.length ? subs.map(function (c) { return E(c.email); }).join(', ') : 'None yet.') + '</p></div>';
+        });
+      };
+
+      S.customers = function () {
+        return D.api('/admin/customers').then(function (d) {
+          main.innerHTML = head('Customers') +
+            '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Orders</th><th>Spent</th><th>Joined</th></tr></thead><tbody>' +
+            (d.customers.length ? d.customers.map(function (c) {
+              return '<tr><td><b>' + E(c.name) + '</b></td><td>' + E(c.email) + '</td><td>' + E(c.phone || '-') + '</td><td>' + c.orders + '</td><td>' + M(c.spent) + '</td><td>' + E(D.fmtDate(c.createdAt)) + '</td></tr>';
+            }).join('') : empty('No customers yet')) + '</tbody></table></div>';
+        });
+      };
+
+      function open(name) {
+        current = name;
+        document.querySelectorAll('#nav button').forEach(function (b) { b.classList.toggle('active', b.dataset.s === name); });
+        main.innerHTML = '<p class="df-sub">Loading...</p>';
+        S[name]().catch(fail);
+        if (name !== 'dashboard') D.api('/admin/stats').then(function (s) {
+          $('d-orders').hidden = !s.pendingOrders; $('d-orders').textContent = s.pendingOrders;
+          $('d-res').hidden = !s.pendingReservations; $('d-res').textContent = s.pendingReservations;
+          $('d-msg').hidden = !s.unreadMessages; $('d-msg').textContent = s.unreadMessages;
+        }).catch(function () {});
+      }
+      var reload = function () { open(current); };
+      var done = function (m) { return function () { D.toast(m); reload(); }; };
+      var bad = function (e) { D.toast(e.message, true); reload(); };
+
+      $('nav').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) open(b.dataset.s); });
+
+      main.addEventListener('click', function (e) {
+        var t = e.target.closest('button, a'); if (!t) return;
+        if (t.dataset.f) { var p = t.dataset.f.split(':'); filter[p[0]] = p[1]; reload(); }
+        else if (t.dataset.del) {
+          var q = t.dataset.del.split(':');
+          if (confirm('Delete this record permanently?')) D.api('/' + q[0] + '/' + q[1], { method: 'DELETE' }).then(done('Deleted')).catch(bad);
+        }
+        else if (t.dataset.read) { var r = t.dataset.read.split(':'); D.api('/contact/' + r[0], { method: 'PATCH', body: { read: r[1] === '1' } }).then(reload).catch(bad); }
+        else if (t.dataset.toggle) {
+          var it = menuCache.find(function (x) { return x.id === t.dataset.toggle; });
+          D.api('/menu/' + it.id, { method: 'PUT', body: { available: it.available === false } }).then(reload).catch(bad);
+        }
+        else if (t.dataset.edit) openModal(menuCache.find(function (x) { return x.id === t.dataset.edit; }));
+        else if (t.hasAttribute('data-addmenu')) openModal(null);
+      });
+      main.addEventListener('change', function (e) {
+        var s = e.target;
+        if (s.dataset.ost) D.api('/orders/' + s.dataset.ost, { method: 'PATCH', body: { status: s.value } }).then(done('Order updated')).catch(bad);
+        else if (s.dataset.rst) D.api('/reservations/' + s.dataset.rst, { method: 'PATCH', body: { status: s.value } }).then(done('Reservation updated')).catch(bad);
+        else if (s.dataset.pst) D.api('/orders/' + s.dataset.pst, { method: 'PATCH', body: { paymentStatus: s.value } }).then(done('Payment updated')).catch(bad);
+      });
+
+      /* ---- menu modal ---- */
+      var modal = $('menu-modal'), mf = $('menu-form');
+      function openModal(item) {
+        var f = mf.elements;
+        $('mm-title').textContent = item ? 'Edit dish' : 'Add dish';
+        f.id.value = item ? item.id : '';
+        f.name.value = item ? item.name : ''; f.price.value = item ? item.price : '';
+        f.category.value = item ? item.category : ''; f.description.value = item ? item.description || '' : '';
+        f.image.value = item ? item.image || '' : ''; f.badge.value = item ? item.badge || '' : '';
+        f.available.checked = item ? item.available !== false : true;
+        $('mm-msg').textContent = ''; modal.classList.add('open'); f.name.focus();
+      }
+      var closeModal = function () { modal.classList.remove('open'); };
+      $('mm-cancel').onclick = closeModal;
+      modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+      mf.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var f = mf.elements, id = f.id.value;
+        var body = { name: f.name.value, price: f.price.value, category: f.category.value, description: f.description.value, image: f.image.value, badge: f.badge.value, available: f.available.checked };
+        D.api(id ? '/menu/' + id : '/menu', { method: id ? 'PUT' : 'POST', body: body })
+          .then(function () { closeModal(); D.toast(id ? 'Dish updated' : 'Dish added'); reload(); })
+          .catch(function (err) { $('mm-msg').textContent = err.message; $('mm-msg').className = 'df-msg err'; });
+      });
+
+      open('dashboard');
+    })();
+  </script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

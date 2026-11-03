@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - Grilli</title>
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/dineflow.css">
+</head>
+<body data-no-cart-btn>
+  <div class="df-page">
+    <div class="df-wrap">
+      <div class="df-top">
+        <a href="index.html"><img src="./assets/images/logo.svg" width="160" height="50" alt="Grilli - Home"></a>
+        <nav id="top-nav"><a href="index.html#menu">Menu</a><a href="cart.html" class="active">Cart</a></nav>
+      </div>
+
+      <h1 class="df-title">Your Cart</h1>
+      <p class="df-sub">Review your dishes and place the order.</p>
+
+      <div id="done" hidden class="df-card df-narrow" style="text-align:center">
+        <h2>Order placed</h2>
+        <p class="df-sub" id="done-text" style="margin-bottom:20px"></p>
+        <a class="df-btn" href="account.html">Track my order</a>
+      </div>
+
+      <div id="empty" hidden class="df-card" style="text-align:center">
+        <p class="df-sub">Your cart is empty.</p>
+        <a class="df-btn" href="index.html#menu">Browse the menu</a>
+      </div>
+
+      <div id="shop" class="df-grid two" hidden>
+        <div class="df-card">
+          <h2>Items</h2>
+          <div id="lines"></div>
+        </div>
+
+        <form id="checkout" class="df-card" novalidate>
+          <h2>Checkout</h2>
+          <div id="need-login" hidden class="df-note" style="margin:0 0 16px;color:var(--gold-crayola)">
+            Please <a href="login.html?next=cart.html" style="text-decoration:underline">login or register</a> to place your order.
+          </div>
+
+          <div class="df-radio">
+            <label><input type="radio" name="orderType" value="dine-in" checked><span>Dine-in</span></label>
+            <label><input type="radio" name="orderType" value="takeaway"><span>Takeaway</span></label>
+            <label><input type="radio" name="orderType" value="delivery"><span>Delivery</span></label>
+          </div>
+          <label class="df-field" id="f-table"><span>Table number (optional)</span><input class="input-field" name="tableNo" type="text" maxlength="10"></label>
+          <label class="df-field" id="f-address" hidden><span>Delivery address</span><textarea class="input-field" name="address" maxlength="300"></textarea></label>
+          <label class="df-field"><span>Phone</span><input class="input-field" name="phone" type="tel" autocomplete="tel" required></label>
+          <label class="df-field"><span>Note for the kitchen (optional)</span><textarea class="input-field" name="note" maxlength="300"></textarea></label>
+
+          <div class="df-radio">
+            <label><input type="radio" name="paymentMethod" value="cod" checked><span>Pay at restaurant / on delivery</span></label>
+            <label><input type="radio" name="paymentMethod" value="demo-online"><span>Pay online (demo)</span></label>
+          </div>
+
+          <div class="df-sum"><span>Subtotal</span><span id="s-sub"></span></div>
+          <div class="df-sum"><span>Tax (5%)</span><span id="s-tax"></span></div>
+          <div class="df-sum total"><span>Total</span><b id="s-total"></b></div>
+
+          <p class="df-msg" id="co-msg" role="status" style="margin-top:14px"></p>
+          <button class="df-btn" type="submit" id="place">Place order</button>
+          <p class="df-note">Online payment is a demo. No real money is charged. The server always calculates the final prices.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="./assets/js/dineflow.js"></script>
+  <script>
+    (function () {
+      var D = window.DineFlow, E = D.esc, $ = function (id) { return document.getElementById(id); };
+      var user = D.session.user();
+      $('top-nav').insertAdjacentHTML('beforeend', user ? '<a href="account.html">My account</a><button type="button" id="lo">Logout</button>' : '<a href="login.html?next=cart.html">Login</a>');
+      if ($('lo')) $('lo').onclick = function () { D.session.clear(); location.reload(); };
+
+      var form = $('checkout');
+      if (user && user.phone) form.elements.phone.value = user.phone;
+      if (!user) $('need-login').hidden = false;
+
+      function render() {
+        var c = D.cart.get();
+        var finished = !$('done').hidden;
+        $('shop').hidden = !c.length || finished;
+        $('empty').hidden = !!c.length || finished;
+        $('lines').innerHTML = c.map(function (x) {
+          return '<div class="df-line" data-id="' + E(x.id) + '">' +
+            '<img src="' + E(x.image || './assets/images/menu-1.png') + '" alt="">' +
+            '<div class="name">' + E(x.name) + '<small>' + D.money(x.price) + ' each</small></div>' +
+            '<div class="df-qty"><button type="button" data-q="-1" aria-label="Less">-</button><span>' + x.qty + '</span><button type="button" data-q="1" aria-label="More">+</button></div>' +
+            '<div class="df-price">' + D.money(x.price * x.qty) + '</div>' +
+            '<button type="button" class="df-x" data-rm aria-label="Remove ' + E(x.name) + '"><ion-icon name="close-outline"></ion-icon></button></div>';
+        }).join('');
+        var sub = D.cart.subtotal(), tax = Math.round(sub * 5) / 100;
+        $('s-sub').textContent = D.money(sub);
+        $('s-tax').textContent = D.money(tax);
+        $('s-total').textContent = D.money(sub + tax);
+      }
+
+      $('lines').addEventListener('click', function (e) {
+        var row = e.target.closest('.df-line'); if (!row) return;
+        var id = row.dataset.id;
+        var q = e.target.closest('[data-q]');
+        if (q) { var cur = D.cart.get().find(function (x) { return x.id === id; }); if (cur) D.cart.setQty(id, cur.qty + Number(q.dataset.q)); }
+        if (e.target.closest('[data-rm]')) D.cart.remove(id);
+      });
+      document.addEventListener('dfcart', render);
+
+      form.addEventListener('change', function () {
+        var t = form.elements.orderType.value;
+        $('f-address').hidden = t !== 'delivery';
+        $('f-table').hidden = t !== 'dine-in';
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var msg = $('co-msg'), btn = $('place');
+        msg.className = 'df-msg';
+        if (!D.session.token()) { location.href = 'login.html?next=cart.html'; return; }
+        btn.disabled = true; msg.textContent = '';
+        var f = form.elements;
+        D.api('/orders', {
+          method: 'POST',
+          body: {
+            items: D.cart.get().map(function (x) { return { id: x.id, qty: x.qty }; }),
+            orderType: f.orderType.value, address: f.address.value, tableNo: f.tableNo.value,
+            phone: f.phone.value, note: f.note.value, paymentMethod: f.paymentMethod.value
+          }
+        }).then(function (d) {
+          $('done').hidden = false;
+          D.cart.clear();
+          $('done-text').textContent = 'Order ' + d.order.orderNo + ' for ' + D.money(d.order.total) +
+            (d.order.paymentStatus === 'paid' ? ' - paid (ref ' + d.order.paymentRef + ').' : ' - pay when you are at the restaurant.');
+        }).catch(function (err) {
+          if (err.status === 401) { location.href = 'login.html?next=cart.html'; return; }
+          msg.textContent = err.message; msg.className = 'df-msg err'; btn.disabled = false;
+        });
+      });
+      render();
+    })();
+  </script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
